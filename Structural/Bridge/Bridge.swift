@@ -34,32 +34,24 @@ class Square: Shape {
 // Painters
 
 protocol Painter {
-    var shape: Shape { get }
-    func drawShape()
+    var color: Color { get }
+    func draw(shape: Shape)
 }
 
 extension Painter {
-    func drawShape() {
+    func draw(shape: Shape) {
+        var shape = shape
+        shape.color = color
         shape.draw()
     }
 }
 
 class RedPainter: Painter {
-    private(set) var shape: Shape
-    
-    init(shape: Shape) {
-        self.shape = shape
-        self.shape.color = .red
-    }
+    let color = Color.red
 }
 
 class BluePainter: Painter {
-    private(set) var shape: Shape
-    
-    init(shape: Shape) {
-        self.shape = shape
-        self.shape.color = .blue
-    }
+    let color = Color.blue
 }
 
 // Client
@@ -67,12 +59,12 @@ class BluePainter: Painter {
 class Client {
     static func run() {
         let circle = Circle()
-        let redPainter = RedPainter(shape: circle)
-        redPainter.drawShape()
+        let redPainter = RedPainter()
+        redPainter.draw(shape: circle)
         
         let square = Square()
-        let bluePainter = BluePainter(shape: square)
-        bluePainter.drawShape()
+        let bluePainter = BluePainter()
+        bluePainter.draw(shape: square)
     }
 }
 
